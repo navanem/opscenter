@@ -9,13 +9,14 @@ import { APP_SETTING_ID } from "@/lib/settings/service";
 export interface GeneralState {
   error?: string;
   ok?: boolean;
+  logoVersion?: number;
 }
 
 const ALLOWED_LOGO_TYPES = ["image/png", "image/jpeg", "image/webp", "image/svg+xml"];
 const MAX_LOGO_BYTES = 1024 * 1024; // 1 MB
 
 export async function updateGeneralAction(
-  _prev: GeneralState,
+  prev: GeneralState,
   formData: FormData,
 ): Promise<GeneralState> {
   await requirePermission("settings.manage");
@@ -50,5 +51,5 @@ export async function updateGeneralAction(
     create: { id: APP_SETTING_ID, ...data },
   });
   revalidatePath("/", "layout");
-  return { ok: true };
+  return { ok: true, logoVersion: (prev.logoVersion ?? 0) + 1 };
 }

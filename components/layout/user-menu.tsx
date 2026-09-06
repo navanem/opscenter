@@ -1,10 +1,24 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { LOCALES, LOCALE_LABELS } from "@/lib/i18n/config";
 
 type Theme = "dark" | "light";
+
+function getThemeSnapshot(): Theme {
+  return document.documentElement.classList.contains("light") ? "light" : "dark";
+}
+
+function getServerThemeSnapshot(): Theme {
+  return "dark";
+}
+
+function subscribeToTheme(callback: () => void) {
+  const observer = new MutationObserver(callback);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+  return () => observer.disconnect();
+}
 
 interface Labels {
   account: string;
@@ -34,12 +48,8 @@ export function UserMenu({
   logoutAction: () => void | Promise<void>;
 }) {
   const [open, setOpen] = useState(false);
-  const [theme, setTheme] = useState<Theme>("dark");
+  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setTheme(document.documentElement.classList.contains("light") ? "light" : "dark");
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -59,7 +69,6 @@ export function UserMenu({
     } catch {
       /* ignore */
     }
-    setTheme(next);
   }
 
   const inits = (name.split(/\s+/).map((p) => p[0]).slice(0, 2).join("") || "?").toUpperCase();
