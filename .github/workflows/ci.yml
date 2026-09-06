@@ -19,6 +19,12 @@ jobs:
     name: Quality
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      DATABASE_URL: postgresql://opscenter:opscenter@localhost:5432/opscenter?schema=public
+      AUTH_SECRET: ci-only-secret-at-least-32-characters
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: ci-only-password
+      NEXT_TELEMETRY_DISABLED: "1"
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
