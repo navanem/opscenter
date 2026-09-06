@@ -12,6 +12,11 @@ updates:
       # Keep Node type definitions aligned with the Node 20 CI/runtime baseline.
       - dependency-name: "@types/node"
         update-types: [version-update:semver-major]
+      # These major toolchain upgrades currently fail the full quality workflow.
+      - dependency-name: eslint
+        update-types: [version-update:semver-major]
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
     groups:
       production-dependencies:
         dependency-type: production
