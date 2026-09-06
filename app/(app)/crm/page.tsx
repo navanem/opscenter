@@ -15,6 +15,7 @@ import { getDictionary } from "@/lib/i18n/server";
 import { CrmTabs } from "./crm-tabs";
 import { CrmFilters } from "./crm-filters";
 import { PipelineBoard } from "./pipeline-board";
+import { getCurrentTimeMs } from "@/lib/time";
 
 type SP = { search?: string; clientId?: string; stageId?: string; outcome?: string; view?: string };
 
@@ -47,7 +48,7 @@ export default async function CrmPage({ searchParams }: { searchParams: Promise<
   ]);
 
   const view = sp.view === "list" ? "list" : "board";
-  const now = Date.now();
+  const now = getCurrentTimeMs();
   const isOverdue = (d: Date | null) => d != null && new Date(d).getTime() < now;
   // Preserve active filters when switching between board and list.
   const baseParams = new URLSearchParams();

@@ -14,6 +14,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { StatCard, StatGrid } from "@/components/ui/stat-card";
 import { PriorityBadge } from "@/components/tickets/badges";
 import { getDictionary } from "@/lib/i18n/server";
+import { getCurrentTimeMs } from "@/lib/time";
 
 export default async function DashboardPage() {
   const user = await requireUser();
@@ -36,7 +37,7 @@ export default async function DashboardPage() {
   const renewingSubs = showSubs ? await listSubscriptionsRenewingSoon() : [];
   const crm = showCrm ? await getCrmDashboard() : { openValueCents: 0, attention: [] };
   const crmAttention = crm.attention;
-  const nowMs = Date.now();
+  const nowMs = getCurrentTimeMs();
   const hasAttention = expiringContracts.length + expiringDevices.length + renewingSubs.length + crmAttention.length > 0;
   const dateFmt = (d: Date) => new Date(d).toLocaleDateString();
 
