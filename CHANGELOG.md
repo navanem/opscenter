@@ -3,6 +3,20 @@
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and semantic versioning.
 
+## [0.65.1] - 2026-09-06
+
+### Changed
+- Updated production and development dependencies within compatible ranges.
+- Added a hardened GitHub Actions quality workflow with PostgreSQL migrations,
+  linting, tests, and a production build.
+- Standardized contribution, security, Dependabot, and protected-branch settings.
+
+### Fixed
+- Removed React purity violations in server-time snapshots, logo cache busting,
+  and theme synchronization.
+- Overrode Prisma's vulnerable transitive mysql2 version with a patched,
+  compatible release.
+
 ## [0.65.0] - 2026-06-27
 
 ### Added
