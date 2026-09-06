@@ -51,5 +51,8 @@
     "tsx": "^4.23.13",
     "typescript": "^5",
     "vitest": "^4.1.11"
+  },
+  "overrides": {
+    "mysql2": "^3.22.0"
   }
 }
